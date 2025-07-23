@@ -1,76 +1,30 @@
 -- =====================================
 -- KEYMAPS ÉCOLE 42 - SIMPLES ET EFFICACES
--- Remplace le contenu de ~/.config/nvim/lua/config/keymaps.lua
--- =====================================
-
--- Fonction header 42
-local function insert_42_header()
-  local filename = vim.fn.expand("%:t")
-  if filename == "" then
-    filename = "unnamed.c"
-  end
-
-  local login = "yasmine.aichi" -- 🔥 TON LOGIN
-  local email = "yasmine.aichi@student.42.fr" -- 🔥 TON EMAIL
-  local date = os.date("%Y/%m/%d %H:%M:%S")
-
-  local header = {
-    "/* ************************************************************************** */",
-    "/*                                                                            */",
-    "/*                                                        :::      ::::::::   */",
-    "/*   " .. filename .. string.rep(" ", math.max(0, 51 - #filename)) .. ":+:      :+:    :+:   */",
-    "/*                                                    +:+ +:+         +:+     */",
-    "/*   By: "
-      .. login
-      .. " <"
-      .. email
-      .. ">"
-      .. string.rep(" ", math.max(0, 42 - #login - #email - 3))
-      .. "+#+  +:+       +#+        */",
-    "/*                                                +#+#+#+#+#+   +#+           */",
-    "/*   Created: "
-      .. date
-      .. " by "
-      .. login
-      .. string.rep(" ", math.max(0, 18 - #login))
-      .. "#+#    #+#             */",
-    "/*   Updated: "
-      .. date
-      .. " by "
-      .. login
-      .. string.rep(" ", math.max(0, 18 - #login))
-      .. "###   ########.fr      */",
-    "/*                                                                            */",
-    "/* ************************************************************************** */",
-    "",
-  }
-
-  vim.api.nvim_buf_set_lines(0, 0, 0, false, header)
-  print("✅ Header 42 inséré pour " .. filename)
-end
-
 local map = vim.keymap.set
 
 -- =====================================
 -- HEADER 42 (touches qui marchent à coup sûr)
 -- =====================================
-map("n", "<F1>", insert_42_header, { desc = "42 Header" })
-map("n", "<F2>", insert_42_header, { desc = "42 Header" }) -- Backup
-map("n", "<leader>42", insert_42_header, { desc = "42 Header" }) -- Alternative leader
 
+map("n", "<F2>", ":CFormat42<CR>", { desc = "formatter 42", noremap = true, silent = true })
 -- =====================================
 -- COMPILATION ÉCOLE 42 (touches directes)
 -- =====================================
 map("n", "<F5>", "<cmd>!gcc -Wall -Wextra -Werror %<CR>", { desc = "Compile C (42)" })
-map("n", "<F6>", "<cmd>!gcc -Wall -Wextra -Werror % -o %:r && ./%:r<CR>", { desc = "Compile + Run" })
+map("n", "<F6>", function()
+  local filename = vim.fn.expand("%")
+  local output = vim.fn.expand("%:r")
+  local compile_cmd = "gcc -Wall -Wextra -Werror " .. filename .. " -o " .. output
+
+  -- Open a floating terminal window so nothing edits your buffer
+  vim.cmd("botright split | terminal " .. compile_cmd .. " && ./" .. output)
+end, { noremap = true, silent = true, desc = "Safe Compile + Run" })
 
 -- =====================================
 -- RACCOURCIS SUPER SIMPLES
 -- =====================================
 -- Sauvegarder
 map("n", ";;", "<cmd>w<CR>", { desc = "Save file" })
--- Header avec double-tap
-map("n", "hh", insert_42_header, { desc = "42 Header (double h)" })
 -- Compile avec double-tap
 map("n", "cc", "<cmd>!gcc -Wall -Wextra -Werror %<CR>", { desc = "Compile C (double c)" })
 
@@ -86,11 +40,10 @@ map("n", "<leader>gs", "<cmd>!git status<CR>", { desc = "Git status" })
 -- =====================================
 -- Mode insertion
 map("i", "jk", "<Esc>", { desc = "Exit insert mode" })
-map("i", "kj", "<Esc>", { desc = "Exit insert mode" })
 
 -- Quitter
-map("n", ";q", "<cmd>q<CR>", { desc = "Quit" })
-map("n", ";x", "<cmd>wq<CR>", { desc = "Save and quit" })
+map("n", ";q", "<leader>q<CR>", { desc = "Quit" })
+map("n", ";x", "<leader>wq<CR>", { desc = "Save and quit" })
 
 -- Buffers avec Tab (si ça marche encore)
 map("n", "<Tab>", "<cmd>bnext<CR>", { desc = "Next buffer" })

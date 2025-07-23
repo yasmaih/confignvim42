@@ -9,6 +9,7 @@ local opt = vim.opt
 -- OPTIONS DE BASE
 -- =====================================
 opt.autowrite = true -- Auto save
+opt.wrap = false -- No line wra v
 opt.clipboard = "unnamedplus" -- Système clipboard
 opt.completeopt = "menu,menuone,noselect"
 opt.conceallevel = 3 -- Hide markup
@@ -34,7 +35,7 @@ opt.sidescrolloff = 8 -- Colonnes de contexte
 opt.signcolumn = "yes" -- Toujours show signcolumn
 opt.smartcase = true -- Smart case search
 --opt.smartindent = true -- Smart indent
-opt.spelllang = { "en" }
+opt.spelllang = { "fr" }
 opt.splitbelow = true -- New windows below
 opt.splitkeep = "screen"
 opt.splitright = true -- New windows right
@@ -44,9 +45,8 @@ opt.undofile = true -- Persistent undo
 opt.undolevels = 10000
 opt.updatetime = 200 -- Faster updates
 opt.virtualedit = "block" -- Visual block mode
-opt.wildmode = "longest:full,full" -- Command completion
+--opt.wildmode = "longest:full,full" -- Command completion
 opt.winminwidth = 5 -- Min window width
-opt.wrap = false -- No line wrap
 
 -- =====================================
 -- NORME 42 STRICTE (du PDF officiel)
@@ -95,7 +95,7 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.colorcolumn = "80" -- Limite 80 colonnes
 
     -- Indentation C spécifique
-    vim.opt_local.cinoptions = ":0,l1,t0,g0,(0"
+    --vim.opt_local.cinoptions = ":0,l1,t0,g0,(0"
   end,
 })
 
