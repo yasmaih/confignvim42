@@ -20,6 +20,27 @@ map("n", "<F6>", function()
   vim.cmd("botright split | terminal " .. compile_cmd .. " && ./" .. output)
 end, { noremap = true, silent = true, desc = "Safe Compile + Run" })
 
+-- ========================================
+-- GESTION DES FENÊTRES (SPLITS)
+-- ========================================
+
+-- Diviser l'écran en plusieurs parties
+map("n", "<leader>sv", function()
+  vim.cmd("<C-w>v")
+  vim.cmd("<C-w>=") -- Égalise automatiquement après split vertical
+end, { desc = "Diviser verticalement (taille égale)" })
+
+map("n", "<leader>sh", function()
+  vim.cmd("<C-w>s")
+  vim.cmd("<C-w>=") -- Égalise automatiquement après split horizontal
+end, { desc = "Diviser horizontalement (taille égale)" })
+
+map("n", "<leader>se", "<C-w>=", { desc = "Égaliser taille des fenêtres" })
+
+map("n", "<leader>sx", function()
+  vim.cmd("close")
+  vim.cmd("<C-w>=") -- Égalise après fermeture
+end, { desc = "Fermer fenêtre + égaliser" })
 -- =====================================
 -- RACCOURCIS SUPER SIMPLES
 -- =====================================

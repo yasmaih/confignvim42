@@ -35,3 +35,10 @@
 --     end
 --   end,
 -- }))
+--
+local formatgrp = vim.api.nvim_create_augroup("C_format_42", {})
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  command = "CFormat42",
+  group = formatgrp,
+})
